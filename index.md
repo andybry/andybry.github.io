@@ -1,4 +1,4 @@
 ---
 layout: default
-title: About this site
+title: About arbryant101
 ---

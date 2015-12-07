@@ -3,6 +3,7 @@
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
 body {
@@ -12,8 +13,29 @@ body {
 
 .header {
   background-color: #fff;
-  color: #111;
   padding: 2em;
+  color: #111;
+}
+
+.header__left {
+  float: left;
+  min-width: 25%;
+}
+
+.header__right {
+  float: left;
+  min-width: 75%;
+}
+
+.site-link {
+  display: block;
+  font-size: 2em;
+}
+
+.page-title {
+  display: block;
+  font-size: 2em;
+  text-align: center;
 }
 
 .content {
