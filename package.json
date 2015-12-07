@@ -1,0 +1,25 @@
+{
+  "name": "andybry.github.io",
+  "version": "1.0.0",
+  "description": "Website for Andy Bryant",
+  "main": "javascript/main.js",
+  "scripts": {
+    "test": "$(npm bin)/jasmine",
+    "build": "$(npm bin)/browserify javascript/main.js > bundle.js",
+    "serve": "bundle exec jekyll serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andybry/andybry.github.io.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andybry/andybry.github.io/issues"
+  },
+  "homepage": "https://github.com/andybry/andybry.github.io#readme",
+  "devDependencies": {
+    "browserify": "^12.0.1",
+    "jasmine": "^2.4.1"
+  }
+}
