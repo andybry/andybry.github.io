@@ -13,22 +13,26 @@ body {
 
 .header {
   background-color: #fff;
-  padding: 2em;
+  padding-left: 2em;
+  padding-right: 2em;
   color: #111;
 }
 
 .header__left {
-  float: left;
+  display: inline-block;
+  margin-top: 2em;
   min-width: 25%;
 }
 
 .header__right {
-  float: left;
+  display: inline-block;
+  margin-top: 2em;
+  margin-bottom: 2em;
   min-width: 75%;
 }
 
 .site-link {
-  display: block;
+  display: inline-block;
   font-size: 2em;
 }
 
