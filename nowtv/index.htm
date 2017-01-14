@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2017 by andybry (http://jsbin.com/buwoze/48/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width">
+  <title>NowTV POC</title>
+  <meta name="description" content="NowTV POC">
+
+<style id="jsbin-css">
+/*
+   =============================================
+   NORMALISE
+   =============================================
+*/
+button, hr, input {
+  overflow: visible;
+}
+
+audio, canvas, progress, video {
+  display: inline-block;
+}
+
+progress, sub, sup {
+  vertical-align: baseline;
+}
+
+html {
+  font-family: sans-serif;
+  line-height: 1.15;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+menu, article, aside, details, footer, header, nav, section {
+  display: block;
+}
+
+h1 {
+  font-size: 2em;
+  margin: .67em 0;
+}
+
+figcaption, figure, main {
+  display: block;
+}
+
+figure {
+  margin: 1em 40px;
+}
+
+hr {
+  box-sizing: content-box;
+  height: 0;
+}
+
+code, kbd, pre, samp {
+  font-family: monospace,monospace;
+  font-size: 1em;
+}
+
+a {
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
+}
+
+a:active, a:hover {
+  outline-width: 0;
+}
+
+abbr[title] {
+  border-bottom: none;
+  text-decoration: underline;
+  text-decoration: underline dotted;
+}
+
+b, strong {
+  font-weight: bolder;
+}
+
+dfn {
+  font-style: italic;
+}
+
+mark {
+  background-color: #ff0;
+  color: #000;
+}
+
+small {
+  font-size: 80%;
+}
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+}
+
+sub {
+  bottom: -.25em;
+}
+
+sup {
+  top: -.5em;
+}
+
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+img {
+  border-style: none;
+}
+
+svg:not(:root) {
+  overflow: hidden;
+}
+
+button, input, optgroup, select, textarea {
+  font-family: sans-serif;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+}
+
+button, select {
+  text-transform: none;
+}
+
+[type=submit], [type=reset], button, html [type=button] {
+  -webkit-appearance: button;
+}
+
+[type=button]::-moz-focus-inner, [type=reset]::-moz-focus-inner, [type=submit]::-moz-focus-inner, button::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+[type=button]:-moz-focusring, [type=reset]:-moz-focusring, [type=submit]:-moz-focusring, button:-moz-focusring {
+  outline: ButtonText dotted 1px;
+}
+
+fieldset {
+  border: 1px solid silver;
+  margin: 0 2px;
+  padding: .35em .625em .75em;
+}
+
+legend {
+  box-sizing: border-box;
+  color: inherit;
+  display: table;
+  max-width: 100%;
+  padding: 0;
+  white-space: normal;
+}
+
+textarea {
+  overflow: auto;
+}
+
+[type=checkbox], [type=radio] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+[type=number]::-webkit-inner-spin-button, [type=number]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+[type=search] {
+  -webkit-appearance: textfield;
+  outline-offset: -2px;
+}
+
+[type=search]::-webkit-search-cancel-button, [type=search]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  font: inherit;
+}
+
+summary {
+  display: list-item;
+}
+
+[hidden], template {
+  display: none;
+}
+
+/*
+   =============================================
+   BASE
+   =============================================
+*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/*
+   =============================================
+   MEDIA QUERIES
+   =============================================
+*/
+/*
+   =============================================
+   UTILITIES
+   =============================================
+*/
+/*
+   =============================================
+   TOP NAV
+   =============================================
+*/
+.nowtv-top-nav {
+  display: flex;
+  height: 62px;
+  background-color: #223153;
+  color: white;
+  stroke: white;
+  fill: white;
+}
+
+.nowtv-top-nav__main-menu-button, .nowtv-top-nav__button-placeholder, .nowtv-top-nav__account-menu-button, .nowtv-top-nav__help-menu-button {
+  flex: 0 1 50px;
+  display: flex;
+  background: none;
+  border: none;
+}
+.nowtv-top-nav__main-menu-button:hover, .nowtv-top-nav__button-placeholder:hover, .nowtv-top-nav__account-menu-button:hover, .nowtv-top-nav__help-menu-button:hover {
+  background-color: #314677;
+}
+.nowtv-top-nav__main-menu-button:focus, .nowtv-top-nav__button-placeholder:focus, .nowtv-top-nav__account-menu-button:focus, .nowtv-top-nav__help-menu-button:focus {
+  background-color: #223153;
+}
+
+@media (min-width: 769px) {
+  .nowtv-top-nav__main-menu-button {
+    visibility: hidden;
+    flex-basis: 150px;
+  }
+}
+
+.nowtv-top-nav__burger {
+  margin: auto;
+  width: 17px;
+}
+
+.nowtv-top-nav__button-placeholder {
+  visibility: hidden;
+}
+@media (min-width: 769px) {
+  .nowtv-top-nav__button-placeholder {
+    flex-basis: 100px;
+  }
+}
+
+.nowtv-top-nav__logo-container {
+  display: flex;
+  flex: 1 1;
+}
+
+.nowtv-top-nav__logo-link {
+  display: inline-flex;
+  height: 100%;
+  margin: auto;
+}
+
+.nowtv-top-nav__logo {
+  height: 20px;
+  margin: auto;
+  stroke: white;
+  fill: white;
+}
+
+@media (min-width: 769px) {
+  .nowtv-top-nav__account-menu-button {
+    flex-basis: 150px;
+    justify-content: space-around;
+    align-items: center;
+  }
+}
+
+.nowtv-top-nav__account-icon {
+  margin: auto;
+  width: 20px;
+  stroke: #223153;
+  fill: white;
+}
+@media (min-width: 769px) {
+  .nowtv-top-nav__account-icon {
+    display: none;
+  }
+}
+
+.nowtv-top-nav__account-button-text {
+  display: none;
+  color: white;
+}
+@media (min-width: 769px) {
+  .nowtv-top-nav__account-button-text {
+    display: inline-block;
+  }
+}
+
+.nowtv-top-nav__account-button-state-icon {
+  display: none;
+  width: 15px;
+  stroke: #bfbfbf;
+}
+@media (min-width: 769px) {
+  .nowtv-top-nav__account-button-state-icon {
+    display: inline-block;
+  }
+}
+
+@media (min-width: 769px) {
+  .nowtv-top-nav__help-menu-button {
+    flex-basis: 100px;
+    justify-content: space-around;
+    align-items: center;
+  }
+}
+
+.nowtv-top-nav__help-icon {
+  margin: auto;
+  font-size: 25px;
+  font-family: sans-serif;
+  color: white;
+}
+@media (min-width: 769px) {
+  .nowtv-top-nav__help-icon {
+    display: none;
+  }
+}
+
+.nowtv-top-nav__help-button-text {
+  display: none;
+  color: white;
+}
+@media (min-width: 769px) {
+  .nowtv-top-nav__help-button-text {
+    display: inline-block;
+  }
+}
+
+.nowtv-top-nav__help-button-state-icon {
+  display: none;
+  width: 15px;
+  stroke: #bfbfbf;
+}
+@media (min-width: 769px) {
+  .nowtv-top-nav__help-button-state-icon {
+    display: inline-block;
+  }
+}
+
+/*
+  ===============================================
+  SMALL SCREEN MENU
+  ===============================================
+ */
+.nowtv-s-menu__doc-cover {
+  display: none;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: transparent;
+}
+.nowtv-s-menu__doc-cover.nowtv-s-menu__doc-cover--open {
+  display: block;
+}
+
+.nowtv-s-menu {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: -270px;
+  width: 270px;
+  overflow: auto;
+  background-color: #2d3f70;
+  transition: left 0.15s ease-in;
+}
+.nowtv-s-menu.nowtv-s-menu--open {
+  left: 0;
+}
+
+.nowtv-s-menu__logo-link-container {
+  display: flex;
+  height: 113px;
+  width: 100%;
+}
+
+.nowtv-s-menu__logo-link {
+  margin: auto;
+}
+
+.nowtv-s-menu__logo {
+  height: 34px;
+  stroke: white;
+  fill: white;
+}
+
+/*
+  ===============================================
+  DROP DOWN MENUS
+  ===============================================
+ */
+.nowtv-account-menu, .nowtv-help-menu {
+  display: none;
+  position: fixed;
+  top: 62px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: auto;
+  background-color: White;
+}
+
+.nowtv-account-menu.nowtv-account-menu--open, .nowtv-help-menu.nowtv-help-menu--open {
+  display: block;
+}
+.nowtv-account-menu.nowtv-account-menu--open:before, .nowtv-help-menu.nowtv-help-menu--open:before {
+  display: block;
+  position: fixed;
+  height: 0;
+  width: 0;
+  border-top: 14px solid transparent;
+  border-right: 14px solid transparent;
+  border-bottom: 14px solid #223153;
+  border-left: 14px solid #223153;
+  top: 45px;
+  content: ' ';
+  transform: rotate(-45deg);
+  border-radius: 5px;
+}
+
+.nowtv-account-menu:before {
+  right: 60px;
+}
+
+.nowtv-help-menu:before {
+  right: 10px;
+}
+
+/*
+  ===============================================
+  DISPLAY NAME
+  ===============================================
+ */
+.nowtv-section-name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 62px;
+  background-color: #f3b241;
+  color: white;
+}
+
+/*
+  ===============================================
+  QUICK LINKS
+  ===============================================
+ */
+.nowtv-quick-links {
+  display: block;
+  height: 62px;
+  list-style: none;
+  white-space: nowrap;
+  overflow: auto;
+  color: #2d3f70;
+}
+
+.nowtv-quick-links__item {
+  display: inline-block;
+  height: 100%;
+}
+
+.nowtv-quick-links__link {
+  display: inline-flex;
+  height: 100%;
+  align-items: center;
+  padding-left: 15px;
+  color: inherit;
+  text-decoration: none;
+}
+
+/*
+  ===============================================
+  HERO
+  ===============================================
+ */
+.nowtv-hero {
+  background-color: #f3b241;
+}
+
+.nowtv-quick-links__highlight {
+  color: #f3b241;
+  line-height: 30px;
+  border-bottom: 2px solid;
+}
+
+/*
+  ===============================================
+  FOOTER
+  ===============================================
+ */
+.nowtv-footer {
+  background-color: #0f111e;
+  color: #7f858c;
+}
+
+.nowtv-footer__facebook, .nowtv-footer__twitter, .nowtv-footer__youtube, .nowtv-footer-links__privacy, .nowtv-footer-links__t-and-cs, .nowtv-footer-links__contact, .nowtv-footer-links__community, .nowtv-footer-links__legal, .nowtv-footer-links__blog {
+  height: 100%;
+  display: flex;
+  background-image: linear-gradient(180deg, #6072a6 0, #10101a 50%);
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.nowtv-footer__facebook-link, .nowtv-footer__twitter-link, .nowtv-footer__youtube-link, .nowtv-footer-links__privacy-link, .nowtv-footer-links__t-and-cs-link, .nowtv-footer-links__contact-link, .nowtv-footer-links__community-link, .nowtv-footer-links__legal-link, .nowtv-footer-links__blog-link {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  color: #7f858c;
+  fill: #7f858c;
+  text-decoration: none;
+}
+.nowtv-footer__facebook-link:hover, .nowtv-footer__twitter-link:hover, .nowtv-footer__youtube-link:hover, .nowtv-footer-links__privacy-link:hover, .nowtv-footer-links__t-and-cs-link:hover, .nowtv-footer-links__contact-link:hover, .nowtv-footer-links__community-link:hover, .nowtv-footer-links__legal-link:hover, .nowtv-footer-links__blog-link:hover {
+  color: white;
+  fill: white;
+}
+
+.nowtv-footer__social-media {
+  display: flex;
+  height: 50px;
+}
+
+.nowtv-footer__facebook, .nowtv-footer__twitter, .nowtv-footer__youtube {
+  flex: 1 1 33.33333%;
+}
+
+.nowtv-footer__twitter-logo {
+  height: 40px;
+}
+
+.nowtv-footer__facebook-logo {
+  height: 25px;
+}
+
+.nowtv-footer__facebook-logo-f {
+  fill: #0f111e;
+}
+
+.nowtv-footer__youtube-logo {
+  height: 25px;
+}
+
+.nowtv-footer__youtube-logo-tube {
+  fill: #0f111e;
+}
+
+.nowtv-footer__site-links {
+  display: flex;
+  list-style: none;
+  flex-wrap: wrap;
+  height: 50px;
+}
+
+.nowtv-footer-links__privacy, .nowtv-footer-links__t-and-cs, .nowtv-footer-links__contact, .nowtv-footer-links__community, .nowtv-footer-links__legal, .nowtv-footer-links__blog {
+  flex: 1 1 50%;
+}
+
+</style>
+</head>
+<body>
+
+  <!-- TOP NAV -->
+  <nav class="nowtv-top-nav">
+    <!-- TOP NAV: BURGER BUTTON -->
+    <button aria-label="show main menu" class="nowtv-top-nav__main-menu-button">
+      <svg class="nowtv-top-nav__burger" viewBox="0 0 1065 1065">
+        <line x1="72" y1="142" x2="928" y2="143" stroke-width="120" stroke-linecap="round" />
+        <line x1="72" y1="568" x2="928" y2="568" stroke-width="120" stroke-linecap="round" />
+        <line x1="72" y1="994" x2="928" y2="994" stroke-width="120" stroke-linecap="round" />
+      </svg>
+    </button>
+
+    <!-- TOP NAV: PLACEHOLDER -->
+    <div class="nowtv-top-nav__button-placeholder"></div>
+
+    <!-- TOP NAV: LOGO LINK -->
+    <div class="nowtv-top-nav__logo-container">
+      <a class="nowtv-top-nav__logo-link" aria-label="Now TV home page" href="http://www.nowtv.com/">
+        <svg class="nowtv-top-nav__logo" viewBox="0 0 4450 1000">
+          <line x1="166" y1="834"
+            x2="290" y2="166"
+            stroke-width="300"
+            stroke-linecap="round" />
+          <line x1="290" y1="166"
+            x2="750" y2="834"
+            stroke-width="300"
+            stroke-linecap="round" />
+          <line x1="750" y1="834"
+            x2="874" y2="166"
+            stroke-width="300"
+            stroke-linecap="round" />
+          <circle cx="1600" cy="500" r="500" />
+          <line x1="2326" y1="166"
+            x2="2450" y2="834"
+            stroke-width="300"
+            stroke-linecap="round"/>
+          <line x1="2450" y1="834"
+            x2="2850" y2="166"
+            stroke-width="300"
+            stroke-linecap="round"/>
+          <line x1="2850" y1="166"
+            x2="3100" y2="834"
+            stroke-width="300"
+            stroke-linecap="round"/>
+          <line x1="3100" y1="834"
+            x2="3400" y2="166"
+            stroke-width="300"
+            stroke-linecap="round"/>
+          <line x1="3700" y1="80"
+            x2="4050" y2="80"
+            stroke-width="90"
+            stroke-linecap="round" />
+          <line x1="3850" y1="100"
+            x2="3850" y2="450"
+            stroke-width="90"
+            stroke-linecap="round" />
+          <line x1="4050" y1="80"
+            x2="4200" y2="450"
+            stroke-width="90" />
+          <line x1="4200" y1="450"
+            x2="4350" y2="80"
+            stroke-width="90"
+            stroke-linecap="round" />
+        </svg>
+      </a>
+    </div>
+
+    <!-- TOP NAV: ACCOUNT BUTTON -->
+    <button aria-label="show account details" class="nowtv-top-nav__account-menu-button">
+      <svg class="nowtv-top-nav__account-icon" viewBox="0 0 1000 1000">
+        <circle cx="500" cy="1000" r="500"/>
+        <circle cx="500" cy="300" r="300" stroke-width="50" />
+      </svg>
+      <span class="nowtv-top-nav__account-button-text">
+        My Account
+      </span>
+      <svg viewBox="0 0 1000 625" class="nowtv-top-nav__account-button-state-icon">
+        <line x1="62" y1="62" x2="500" y2="563" stroke-width="124" stroke-linecap="round" />
+        <line x1="500" y1="563" x2="938" y2="50" stroke-width="124" stroke-linecap="round" />
+      </svg>
+    </button>
+
+    <!-- TOP NAV: HELP BUTTON -->
+    <button aria-label="show help menu" class="nowtv-top-nav__help-menu-button">
+      <span class="nowtv-top-nav__help-icon">
+        ?
+      </span>
+      <span class="nowtv-top-nav__help-button-text">
+        Help
+      </span>
+      <svg viewBox="0 0 1000 625" class="nowtv-top-nav__help-button-state-icon">
+        <line x1="62" y1="62" x2="500" y2="563" stroke-width="124" stroke-linecap="round" />
+        <line x1="500" y1="563" x2="938" y2="50" stroke-width="124" stroke-linecap="round" />
+      </svg>
+    </button>
+  </nav>
+
+  <!-- SMALL SCREEN MENU -->
+  <div class="nowtv-s-menu__doc-cover"></div>
+
+  <div class="nowtv-s-menu">
+    <!-- SMALL SCREEN MENU: LOGO LINK -->
+    <div class="nowtv-s-menu__logo-link-container">
+      <a href="http://www.nowtv.com/" class="nowtv-s-menu__logo-link">
+        <svg class="nowtv-s-menu__logo" viewBox="0 0 4450 1000">
+          <line x1="166" y1="834"
+            x2="290" y2="166"
+            stroke-width="300"
+            stroke-linecap="round" />
+          <line x1="290" y1="166"
+            x2="750" y2="834"
+            stroke-width="300"
+            stroke-linecap="round" />
+          <line x1="750" y1="834"
+            x2="874" y2="166"
+            stroke-width="300"
+            stroke-linecap="round" />
+          <circle cx="1600" cy="500" r="500" />
+          <line x1="2326" y1="166"
+            x2="2450" y2="834"
+            stroke-width="300"
+            stroke-linecap="round"/>
+          <line x1="2450" y1="834"
+            x2="2850" y2="166"
+            stroke-width="300"
+            stroke-linecap="round"/>
+          <line x1="2850" y1="166"
+            x2="3100" y2="834"
+            stroke-width="300"
+            stroke-linecap="round"/>
+          <line x1="3100" y1="834"
+            x2="3400" y2="166"
+            stroke-width="300"
+            stroke-linecap="round"/>
+          <line x1="3700" y1="80"
+            x2="4050" y2="80"
+            stroke-width="90"
+            stroke-linecap="round" />
+          <line x1="3850" y1="100"
+            x2="3850" y2="450"
+            stroke-width="90"
+            stroke-linecap="round" />
+          <line x1="4050" y1="80"
+            x2="4200" y2="450"
+            stroke-width="90" />
+          <line x1="4200" y1="450"
+            x2="4350" y2="80"
+            stroke-width="90"
+            stroke-linecap="round" />
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- ACCOUNT MENU -->
+  <div class="nowtv-account-menu">
+    account menu
+  </div>
+
+  <!-- HELP MENU -->
+  <div class="nowtv-help-menu">
+    help menu
+  </div>
+
+  <!-- SECTION NAME -->
+  <div class="nowtv-section-name">
+    NOW TV Boxes
+  </div>
+  
+  <!-- QUICK LINKS -->
+  <ul class="nowtv-quick-links">
+    <li class="nowtv-quick-links__item">
+      <a href="http://www.nowtv.com/tv-boxes" class="nowtv-quick-links__link">
+        <span class="nowtv-quick-links__highlight">Overview</span>
+      </a>
+    </li>
+    <li class="nowtv-quick-links__item">
+      <a href="http://www.nowtv.com/box" class="nowtv-quick-links__link">
+        NOW TV Box
+      </a>
+    <li class="nowtv-quick-links__item">
+      <a href="http://www.nowtv.com/box" class="nowtv-quick-links__link">
+        NOW TV Smart Box
+      </a>
+    </li>
+    <li class="nowtv-quick-links__item">
+      <a href="http://www.nowtv.com/box" class="nowtv-quick-links__link">
+        Compare Boxes
+      </a>
+    </li>
+  </ul>
+
+  <div class="nowtv-hero">
+ <img src="https://www.arbryant101.com/images/hero-img-boxes_v3.jpg" alt="NOW TV displayed on a television with NOW TV boxes">
+  </div>
+  
+  <!-- FOOTER -->
+  <footer class="nowtv-footer">
+    <ul class="nowtv-footer__social-media">
+      <li class="nowtv-footer__facebook">
+        <a href="https://www.facebook.com/nowtv/" aria-label="Facebook page" class="nowtv-footer__facebook-link">
+          <svg class="nowtv-footer__facebook-logo" viewBox="0 0 266.893 266.895">
+            <path d="M248.082,262.307c7.854,0,14.223-6.369,14.223-14.225V18.812
+	c0-7.857-6.368-14.224-14.223-14.224H18.812c-7.857,0-14.224,6.367-14.224,14.224v229.27c0,7.855,6.366,14.225,14.224,14.225
+	H248.082z"/>
+<path class="nowtv-footer__facebook-logo-f" d="M182.409,262.307v-99.803h33.499l5.016-38.895h-38.515V98.777c0-11.261,3.127-18.935,19.275-18.935
+	l20.596-0.009V45.045c-3.562-0.474-15.788-1.533-30.012-1.533c-29.695,0-50.025,18.126-50.025,51.413v28.684h-33.585v38.895h33.585
+	v99.803H182.409z"/>
+
+          </svg>
+        </a>
+      </li>
+      <li class="nowtv-footer__twitter">
+        <a href="https://twitter.com/NOWTV" aria-label="Twitter page" class="nowtv-footer__twitter-link">
+          <svg class="nowtv-footer__twitter-logo" x="0px" y="0px" viewBox="0 0 400 400">
+            		<path class="st1" d="M153.6,301.6c94.3,0,145.9-78.2,145.9-145.9c0-2.2,0-4.4-0.1-6.6c10-7.2,18.7-16.3,25.6-26.6
+			c-9.2,4.1-19.1,6.8-29.5,8.1c10.6-6.3,18.7-16.4,22.6-28.4c-9.9,5.9-20.9,10.1-32.6,12.4c-9.4-10-22.7-16.2-37.4-16.2
+			c-28.3,0-51.3,23-51.3,51.3c0,4,0.5,7.9,1.3,11.7c-42.6-2.1-80.4-22.6-105.7-53.6c-4.4,7.6-6.9,16.4-6.9,25.8
+			c0,17.8,9.1,33.5,22.8,42.7c-8.4-0.3-16.3-2.6-23.2-6.4c0,0.2,0,0.4,0,0.7c0,24.8,17.7,45.6,41.1,50.3c-4.3,1.2-8.8,1.8-13.5,1.8
+			c-3.3,0-6.5-0.3-9.6-0.9c6.5,20.4,25.5,35.2,47.9,35.6c-17.6,13.8-39.7,22-63.7,22c-4.1,0-8.2-0.2-12.2-0.7
+			C97.7,293.1,124.7,301.6,153.6,301.6"/>
+          </svg>
+        </a>
+      </li>
+      <li class="nowtv-footer__youtube">
+        <a href="https://www.youtube.com/nowtv" aria-label="Youtube channel" class="nowtv-footer__youtube-link">
+          <svg class="nowtv-footer__youtube-logo" viewBox="0 0 502 210.6489">
+             <g style="" transform="matrix(.5 0 0 .5 1.3135 .68653)">
+  <g style="">
+   <path d="m994.04 90.026s-5.82-40.886-23.693-58.893c-22.66-23.626-48.07-23.746-59.72-25.133-83.4-6-208.5-6-208.5-6h-0.25999s-125.11 0-208.51 6c-11.653 1.3867-37.046 1.5067-59.72 25.133-17.867 18.007-23.68 58.893-23.68 58.893s-5.9666 48.006-5.9666 96.019v45.013c0 48.013 5.9666 96.026 5.9666 96.026s5.8133 40.88 23.68 58.893c22.673 23.633 52.46 22.88 65.72 25.353 47.68 4.56 202.63 5.9666 202.63 5.9666s125.24-0.18667 208.64-6.1866c11.647-1.3867 37.053-1.5 59.713-25.133 17.873-18.013 23.693-58.893 23.693-58.893s5.96-48.013 5.96-96.026v-45.013c0-48.013-5.96-96.019-5.96-96.019"/>
+  </g>
+  <g style="">
+   <g transform="matrix(6.6666 0 0 -6.6666 373.24 337.7)">
+    <path d="m0 0h-5.688v3.293c-2.157-2.472-3.985-3.72-5.978-3.72-1.748 0-2.963 0.824-3.57 2.315-0.369 0.906-0.631 2.321-0.631 4.399v23.951h5.687v-22.454-2.096c0.133-0.839 0.491-1.147 1.213-1.147 1.089 0 2.074 0.946 3.279 2.645v23.052h5.688v-30.238z"/>
+   </g>
+   <g transform="matrix(6.6666 0 0 -6.6666 201.59 277.82)">
+    <path d="m0 0c0.299-2.994-0.63-4.479-2.396-4.479s-2.694 1.485-2.394 4.479v11.976c-0.3 2.994 0.628 4.397 2.394 4.397 1.767 0 2.698-1.403 2.399-4.397l-0.003-11.976zm5.688 11.377c0 3.231-0.649 5.658-1.796 7.185-1.516 2.069-3.892 2.916-6.288 2.916-2.71 0-4.774-0.847-6.287-2.916-1.166-1.527-1.791-3.98-1.791-7.211l-0.005-10.752c0-3.213 0.556-5.433 1.721-6.946 1.514-2.062 3.968-3.154 6.362-3.154 2.396 0 4.892 1.092 6.408 3.154 1.147 1.513 1.676 3.733 1.676 6.946v10.778z"/>
+   </g>
+   <g transform="matrix(6.6666 0 0 -6.6666 89.82 227.92)">
+    <path d="m0 0v-16.467h-5.988v16.467s-6.205 20.187-7.485 23.95h6.287l4.202-15.77 4.181 15.77h6.287l-7.484-23.95z"/>
+   </g>
+  </g>
+  <g style="" class="nowtv-footer__youtube-logo-tube">
+   <g transform="matrix(6.6666 0 0 -6.6666 878.2 191.92)">
+    <path d="m0 0c0 2.799 0.767 3.562 2.577 3.562 1.797 0 2.512-0.833 2.512-3.599v-3.268l-5.089-0.006v3.311zm10.788-7.796-0.001 6.12c0 3.197-0.63 5.537-1.764 7.05-1.518 2.047-3.676 3.131-6.395 3.131-2.768 0-4.926-1.084-6.493-3.131-1.152-1.513-1.823-3.984-1.823-7.183v-10.478c0-3.179 0.738-5.404 1.889-6.901 1.568-2.044 3.726-3.065 6.561-3.065 2.832 0 5.056 1.07 6.555 3.243 0.66 0.959 1.085 2.046 1.268 3.247 0.049 0.543 0.192 1.78 0.192 3.526v0.848h-5.688c0-2.174 0.011-3.467-0.04-3.762-0.31-1.45-1.087-2.175-2.421-2.175-1.861 0-2.648 1.391-2.628 4.153v5.377h10.788z" />
+   </g>
+   <g transform="matrix(6.6666 0 0 -6.6666 778.4 279.82)">
+    <path d="m0 0c0-2.994-0.706-4.142-2.269-4.142-0.892 0-1.92 0.459-2.827 1.366l0.006 18.157c0.906 0.894 1.929 1.365 2.821 1.365 1.563 0 2.269-0.879 2.269-3.873v-12.873zm0.631 21.736c-1.994 0-3.976-1.226-5.727-3.381l0.006 13.081h-5.389v-40.119h5.389l0.008 3.015c1.811-2.241 3.786-3.4 5.713-3.4 2.158 0 3.735 1.155 4.459 3.38 0.361 1.268 0.598 3.22 0.598 5.987v11.975c0 2.834-0.363 4.772-0.725 5.975-0.723 2.24-2.174 3.487-4.332 3.487" />
+   </g>
+   <g transform="matrix(6.6666 0 0 -6.6666 678.61 337.7)">
+    <path d="m0 0h-5.687v3.293c-2.158-2.472-3.985-3.72-5.978-3.72-1.748 0-2.963 0.824-3.57 2.315-0.37 0.906-0.632 2.321-0.632 4.399v23.651h5.688v-22.154-2.096c0.133-0.839 0.49-1.147 1.213-1.147 1.089 0 2.074 0.946 3.279 2.645v22.752h5.687v-29.938z" />
+   </g>
+   <g transform="matrix(6.6666 0 0 -6.6666 534.9 337.7)">
+    <path d="m0 0h-5.987v34.43h-6.287v5.681l18.861 0.007v-5.688h-6.587v-34.43z" />
+   </g>
+  </g>
+ </g>
+
+          </svg>
+        </a>
+      </li>
+    </ul>
+    
+    <ul class="nowtv-footer__site-links">
+      <li class="nowtv-footer-links__privacy">
+        <a href="" class="nowtv-footer-links__privacy-link">
+          Privacy &amp; Cookies
+        </a>
+      </li>
+      <li class="nowtv-footer-links__t-and-cs">
+        <a href="" class="nowtv-footer-links__t-and-cs-link">
+          Terms of Use
+        </a>
+      </li>
+      <li class="nowtv-footer-links__contact">
+        <a href="" class="nowtv-footer-links__contact-link">
+          How to Contact Us
+        </a>
+      </li>
+      <li class="nowtv-footer-links__community">
+        <a href="" class="nowtv-footer-links__community-link">
+          Community
+        </a>
+      </li>
+      <li class="nowtv-footer-links__legal">
+        <a href="" class="nowtv-footer-links__legal-link">
+          The Legal Bit
+        </a>
+      </li>
+      <li class="nowtv-footer-links__blog">
+        <a href="" class="nowtv-footer-links__blog-link">
+          Blog
+        </a>
+      </li>
+    </ul>
+  </footer>
+  
+<script>
+/*
+  ===============================================
+  UTILITIES
+  ===============================================
+ */
+const element = className => document.querySelector(`.${className}`);
+const onclick = (className, handler) => {
+  element(className).onclick = handler;
+};
+const clickDoc = handler => {
+  document.onclick = handler;
+};
+const addMod = (className, mod) => {
+  element(className).classList.add(`${className}--${mod}`);
+};
+const clearMod = (className, mod) => {
+  element(className).classList.remove(`${className}--${mod}`);
+};
+const togMod = (className, mod) => {
+  element(className).classList.toggle(`${className}--${mod}`);
+};
+
+/*
+  ===============================================
+  TOP NAV
+  ===============================================
+ */
+// TOP NAV: BURGER BUTTON
+onclick('nowtv-top-nav__main-menu-button', e => {
+  clearMod('nowtv-top-nav__account-menu-button', 'open');
+  clearMod('nowtv-account-menu', 'open');
+  clearMod('nowtv-top-nav__help-menu-button', 'open');
+  clearMod('nowtv-help-menu', 'open');
+  addMod('nowtv-s-menu__doc-cover', 'open');
+  addMod('nowtv-s-menu', 'open');
+});
+
+// TOP NAV: LOGO LINK
+onclick('nowtv-top-nav__logo-container', e => {
+  clearMod('nowtv-top-nav__account-menu-button', 'open');
+  clearMod('nowtv-account-menu', 'open');
+  clearMod('nowtv-top-nav__help-menu-button', 'open');
+  clearMod('nowtv-help-menu', 'open');
+});
+
+
+// TOP NAV: ACCOUNT BUTTON
+onclick('nowtv-top-nav__account-menu-button', e => {
+  clearMod('nowtv-top-nav__help-menu-button', 'open');
+  clearMod('nowtv-help-menu', 'open');
+  togMod('nowtv-top-nav__account-menu-button', 'open');
+  togMod('nowtv-account-menu', 'open');
+});
+
+// TOP NAV: HELP BUTTON
+onclick('nowtv-top-nav__help-menu-button', e => {
+  clearMod('nowtv-top-nav__account-menu-button', 'open');
+  clearMod('nowtv-account-menu', 'open');
+  togMod('nowtv-top-nav__help-menu-button', 'open');
+  togMod('nowtv-help-menu', 'open');
+});
+
+/*
+  ===============================================
+  SMALL SCREEN MENU
+  ===============================================
+ */
+onclick('nowtv-s-menu__doc-cover', e => {
+  clearMod('nowtv-s-menu__doc-cover', 'open');
+  clearMod('nowtv-s-menu', 'open');
+});
+</script>
+</body>
+</html>
